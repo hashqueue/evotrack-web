@@ -63,17 +63,13 @@
           <a-switch v-model:checked="createUpdateForm.is_visible" />
         </a-form-item>
         <a-form-item name="parent" label="父权限" v-if="title !== '新增根权限'">
-          <a-select
+          <a-tree-select
             v-model:value="createUpdateForm.parent"
-            show-search
-            placeholder="输入权限名称以进行(模糊)搜索"
-            :default-active-first-option="false"
-            :show-arrow="true"
-            :filter-option="false"
-            :options="parentOptions"
-            @search="handleSearch"
-            @change="handleChange"
-          ></a-select>
+            placeholder="输选择父权限"
+            allow-clear
+            tree-default-expand-all
+            :tree-data="permTreeSelectTreeData"
+          ></a-tree-select>
         </a-form-item>
       </a-form>
     </template>
@@ -83,14 +79,13 @@
 <script setup>
 import { ref, watch } from 'vue'
 import {
-  getPermissionList,
   createPermission,
   updatePermission,
-  getPermissionDetail
+  getPermissionDetail,
+  getPermissionTreeList
 } from '@/apis/system/permission'
-import { isSelectOptionsIncludeSelectedData } from '@/utils/common'
+import { convertTreeData2TreeSelectData } from '@/utils/common'
 import StandardModal from '@/components/StandardModal.vue'
-import { permTypeEnum } from '@/utils/enum'
 
 const props = defineProps({
   permissionId: {
@@ -110,7 +105,15 @@ const emit = defineEmits(['closeModal', 'getLatestPermissionList'])
 
 const labelCol = { span: 4 }
 const wrapperCol = { span: 20 }
-const parentOptions = ref([])
+
+const permTreeSelectTreeData = ref([])
+const getPermissionTreeListData = () => {
+  getPermissionTreeList().then((res) => {
+    permTreeSelectTreeData.value = convertTreeData2TreeSelectData(res.results)
+  })
+}
+getPermissionTreeListData()
+
 const createUpdateFormRef = ref()
 const createUpdateForm = ref({
   name: '',
@@ -131,85 +134,6 @@ const createUpdateRules = {
   component: [{ max: 255, trigger: 'change', message: '组件路径不能多于255位' }],
   path: [{ max: 255, trigger: 'change', message: '路由path不能多于255位' }],
   redirect: [{ max: 255, trigger: 'change', message: '路由重定向path不能多于255位' }]
-}
-
-watch(
-  () => props.modelOpen,
-  (newValue, oldValue) => {
-    if (props.title !== '新增根权限') {
-      getPermissionDetail(props.permissionId).then((res) => {
-        if (props.title === '添加子权限') {
-          if (!isSelectOptionsIncludeSelectedData(parentOptions.value, res.id, 'value')) {
-            const data = {
-              label: `${res.name} - ${permTypeEnum[res.perm_type].value}`,
-              value: res.id
-            }
-            parentOptions.value.push(data)
-          }
-          createUpdateForm.value = {
-            name: '',
-            perm_type: 1,
-            icon: '',
-            component: '',
-            path: '',
-            redirect: '',
-            is_visible: true,
-            parent: res.id
-          }
-        } else if (props.title === '修改权限' || props.title === '复制权限') {
-          const { name, perm_type, icon, component, path, redirect, is_visible, parent } = res
-          const parentValue = parent ? parent.id : undefined
-          if (parentValue) {
-            if (!isSelectOptionsIncludeSelectedData(parentOptions.value, res.parent.id, 'value')) {
-              const data = {
-                label: `${res.parent.name} - ${permTypeEnum[res.parent.perm_type].value}`,
-                value: res.parent.id
-              }
-              parentOptions.value.push(data)
-            }
-          }
-          createUpdateForm.value = {
-            name,
-            perm_type,
-            icon,
-            component,
-            path,
-            redirect,
-            is_visible,
-            parent: parentValue
-          }
-        }
-      })
-    }
-  }
-)
-getPermissionList({ page: 1, page_size: 50 }).then((res) => {
-  for (const originPermission of res.results) {
-    if (!isSelectOptionsIncludeSelectedData(parentOptions.value, originPermission.id, 'value')) {
-      const data = {
-        label: `${originPermission.name} - ${permTypeEnum[originPermission.perm_type].value}`,
-        value: originPermission.id
-      }
-      parentOptions.value.push(data)
-    }
-  }
-})
-const handleSearch = (val) => {
-  getPermissionList({ name: val }).then((res) => {
-    for (const originPermission of res.results) {
-      if (!isSelectOptionsIncludeSelectedData(parentOptions.value, originPermission.id, 'value')) {
-        const data = {
-          label: `${originPermission.name} - ${permTypeEnum[originPermission.perm_type].value}`,
-          value: originPermission.id
-        }
-        parentOptions.value.push(data)
-      }
-    }
-  })
-}
-
-const handleChange = (val) => {
-  createUpdateForm.value.parent = val
 }
 const onOk = () => {
   createUpdateFormRef.value
@@ -238,6 +162,40 @@ const onCancel = () => {
   createUpdateFormRef.value.resetFields()
   emit('closeModal')
 }
+watch(
+  () => props.modelOpen,
+  (newValue, oldValue) => {
+    if (props.title !== '新增根权限') {
+      getPermissionDetail(props.permissionId).then((res) => {
+        if (props.title === '添加子权限') {
+          createUpdateForm.value = {
+            name: '',
+            perm_type: 1,
+            icon: '',
+            component: '',
+            path: '',
+            redirect: '',
+            is_visible: true,
+            parent: res.id
+          }
+        } else if (props.title === '修改权限' || props.title === '复制权限') {
+          const { name, perm_type, icon, component, path, redirect, is_visible, parent } = res
+          const parentValue = parent ? parent.id : undefined
+          createUpdateForm.value = {
+            name,
+            perm_type,
+            icon,
+            component,
+            path,
+            redirect,
+            is_visible,
+            parent: parentValue
+          }
+        }
+      })
+    }
+  }
+)
 </script>
 
 <style scoped></style>
