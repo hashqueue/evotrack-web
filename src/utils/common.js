@@ -20,23 +20,6 @@ export const isSelectOptionsIncludeSelectedData = (originOptions, data, OriginOp
   return result
 }
 
-export const convertTreeData2TreeSelectData = (treeData) => {
-  const treeSelectData = []
-  for (const item of treeData) {
-    if (item.perm_type === 1 || item.perm_type === 2) {
-      const tmpItem = {
-        label: `${item.name} - ${permTypeEnum[item.perm_type].value}`,
-        value: item.id
-      }
-      if (item.children) {
-        tmpItem.children = convertTreeData2TreeSelectData(item.children)
-      }
-      treeSelectData.push(tmpItem)
-    }
-  }
-  return treeSelectData
-}
-
 /**
  * 将路由原始菜单权限数据转化为vue-router可用的数据，添加路由懒加载
  * @param originData

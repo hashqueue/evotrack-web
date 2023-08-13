@@ -48,7 +48,7 @@
     </template>
   </standard-table>
   <permission-form
-    :model-open="modelOpen"
+    :modal-open="modalOpen"
     :title="title"
     :permission-id="permissionId"
     @close-modal="closeModal"
@@ -64,7 +64,7 @@ import StandardTable from '@/components/StandardTable.vue'
 import { permTypeEnum } from '@/utils/enum'
 
 const dataList = ref([])
-const modelOpen = ref(false)
+const modalOpen = ref(false)
 const tableLoading = ref(false)
 const title = ref('新增根权限')
 const permissionId = ref(null)
@@ -150,26 +150,26 @@ const columns = [
 
 const createRootPermission = () => {
   title.value = '新增根权限'
-  modelOpen.value = true
+  modalOpen.value = true
 }
 const closeModal = () => {
   title.value = '新增根权限'
-  modelOpen.value = false
+  modalOpen.value = false
 }
 const createSubPermission = (record) => {
   permissionId.value = record.id
   title.value = '添加子权限'
-  modelOpen.value = true
+  modalOpen.value = true
 }
 const updatePermission = (record) => {
   permissionId.value = record.id
   title.value = '修改权限'
-  modelOpen.value = true
+  modalOpen.value = true
 }
 const copyPermission = (record) => {
   permissionId.value = record.id
   title.value = '复制权限'
-  modelOpen.value = true
+  modalOpen.value = true
 }
 const deletePermission = (permissionId) => {
   deletePermissionDetail(permissionId).then(() => {

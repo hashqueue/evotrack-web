@@ -1,6 +1,6 @@
 <template>
   <standard-modal
-    :modal-open="modelOpen"
+    :modal-open="modalOpen"
     :modal-width="700"
     :modal-title="title"
     :modal-ok-text="'提交'"
@@ -84,15 +84,15 @@ import {
   getPermissionDetail,
   getPermissionTreeList
 } from '@/apis/system/permission'
-import { convertTreeData2TreeSelectData } from '@/utils/common'
 import StandardModal from '@/components/StandardModal.vue'
+import { permTypeEnum } from '@/utils/enum'
 
 const props = defineProps({
   permissionId: {
     type: [Number, null],
     required: false
   },
-  modelOpen: {
+  modalOpen: {
     type: Boolean,
     required: true
   },
@@ -107,12 +107,22 @@ const labelCol = { span: 4 }
 const wrapperCol = { span: 20 }
 
 const permTreeSelectTreeData = ref([])
-const getPermissionTreeListData = () => {
-  getPermissionTreeList().then((res) => {
-    permTreeSelectTreeData.value = convertTreeData2TreeSelectData(res.results)
-  })
+const convertTreeData2TreeSelectData = (treeData) => {
+  const treeSelectData = []
+  for (const item of treeData) {
+    if (item.perm_type === 1 || item.perm_type === 2) {
+      const tmpItem = {
+        label: `${item.name} - ${permTypeEnum[item.perm_type].value}`,
+        value: item.id
+      }
+      if (item.children) {
+        tmpItem.children = convertTreeData2TreeSelectData(item.children)
+      }
+      treeSelectData.push(tmpItem)
+    }
+  }
+  return treeSelectData
 }
-getPermissionTreeListData()
 
 const createUpdateFormRef = ref()
 const createUpdateForm = ref({
@@ -120,7 +130,7 @@ const createUpdateForm = ref({
   perm_type: 1,
   icon: '',
   component: '',
-  path: '',
+  path: null,
   redirect: '',
   is_visible: true,
   parent: undefined
@@ -163,9 +173,12 @@ const onCancel = () => {
   emit('closeModal')
 }
 watch(
-  () => props.modelOpen,
+  () => props.modalOpen,
   (newValue, oldValue) => {
     if (props.title !== '新增根权限') {
+      getPermissionTreeList().then((res) => {
+        permTreeSelectTreeData.value = convertTreeData2TreeSelectData(res.results)
+      })
       getPermissionDetail(props.permissionId).then((res) => {
         if (props.title === '添加子权限') {
           createUpdateForm.value = {
@@ -173,7 +186,7 @@ watch(
             perm_type: 1,
             icon: '',
             component: '',
-            path: '',
+            path: null,
             redirect: '',
             is_visible: true,
             parent: res.id

@@ -1,6 +1,6 @@
 <template>
   <standard-modal
-    :modal-open="modelOpen"
+    :modal-open="modalOpen"
     :modal-width="500"
     :modal-title="title"
     :modal-ok-text="'提交'"
@@ -37,7 +37,7 @@ const props = defineProps({
     type: [Number, null],
     required: false
   },
-  modelOpen: {
+  modalOpen: {
     type: Boolean,
     required: true
   },
@@ -63,7 +63,7 @@ const createUpdateRules = {
 }
 
 watch(
-  () => props.modelOpen,
+  () => props.modalOpen,
   (newValue, oldValue) => {
     if (props.title === '修改角色') {
       getRoleDetail(props.roleId).then((res) => {

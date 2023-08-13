@@ -29,7 +29,7 @@
     </template>
   </standard-table>
   <role-form
-    :model-open="modelOpen"
+    :modal-open="modalOpen"
     :title="title"
     :role-id="roleId"
     @close-modal="closeModal"
@@ -76,7 +76,7 @@ import { permTypeEnum } from '@/utils/enum'
 
 const dataList = ref([])
 const title = ref('新增角色')
-const modelOpen = ref(false)
+const modalOpen = ref(false)
 const tableLoading = ref(false)
 const roleId = ref(null)
 const paginationData = ref({})
@@ -154,16 +154,16 @@ const onPageChange = (pagination, filters, sorter, currentDataSource) => {
 }
 const createRole = () => {
   title.value = '新增角色'
-  modelOpen.value = true
+  modalOpen.value = true
 }
 const closeModal = () => {
   title.value = '新增角色'
-  modelOpen.value = false
+  modalOpen.value = false
 }
 const updateRole = (record) => {
   roleId.value = record.id
   title.value = '修改角色'
-  modelOpen.value = true
+  modalOpen.value = true
 }
 const deleteRole = (roleId) => {
   deleteRoleDetail(roleId).then(() => {
