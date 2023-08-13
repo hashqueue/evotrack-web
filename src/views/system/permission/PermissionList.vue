@@ -1,7 +1,5 @@
 <template>
-  <a-button type="primary" style="margin-bottom: 8px" @click="createRootPermission"
-    >新增根权限</a-button
-  >
+  <a-button type="primary" @click="createRootPermission">新增根权限</a-button>
   <standard-table
     :default-expand-all-rows="true"
     :data-source="dataList"

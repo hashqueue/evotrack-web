@@ -12,6 +12,7 @@
     @change="onPageChange"
     :default-expand-all-rows="defaultExpandAllRows"
     :size="tableSize"
+    style="margin-top: 8px"
   >
     <template #bodyCell="{ column, record }">
       <slot name="action" :column="column" :record="record"></slot>
