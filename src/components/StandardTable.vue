@@ -1,6 +1,7 @@
 <template>
   <slot name="tableFilter"></slot>
   <a-table
+    v-if="dataSource.length"
     :columns="columns"
     :data-source="dataSource"
     :scroll="scroll"

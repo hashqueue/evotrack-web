@@ -133,7 +133,7 @@ const createUpdateForm = ref({
   path: null,
   redirect: '',
   is_visible: true,
-  parent: undefined
+  parent: null
 })
 const createUpdateRules = {
   name: [
@@ -193,7 +193,7 @@ watch(
           }
         } else if (props.title === '修改权限' || props.title === '复制权限') {
           const { name, perm_type, icon, component, path, redirect, is_visible, parent } = res
-          const parentValue = parent ? parent.id : undefined
+          const parentValue = parent ? parent.id : null
           createUpdateForm.value = {
             name,
             perm_type,

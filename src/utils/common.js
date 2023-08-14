@@ -20,6 +20,21 @@ export const isSelectOptionsIncludeSelectedData = (originOptions, data, OriginOp
   return result
 }
 
+export const convertDeptTreeData2TreeSelectData = (treeData) => {
+  const treeSelectData = []
+  for (const item of treeData) {
+    const tmpItem = {
+      label: item.name,
+      value: item.id
+    }
+    if (item.children) {
+      tmpItem.children = convertDeptTreeData2TreeSelectData(item.children)
+    }
+    treeSelectData.push(tmpItem)
+  }
+  return treeSelectData
+}
+
 /**
  * 将路由原始菜单权限数据转化为vue-router可用的数据，添加路由懒加载
  * @param originData

@@ -42,6 +42,7 @@ import {
   getDepartmentTreeList
 } from '@/apis/system/department'
 import StandardModal from '@/components/StandardModal.vue'
+import { convertDeptTreeData2TreeSelectData } from '@/utils/common'
 
 const props = defineProps({
   departmentId: {
@@ -62,25 +63,11 @@ const labelCol = { span: 3 }
 const wrapperCol = { span: 24 }
 
 const deptTreeSelectTreeData = ref([])
-const convertDeptTreeData2TreeSelectData = (treeData) => {
-  const treeSelectData = []
-  for (const item of treeData) {
-    const tmpItem = {
-      label: item.name,
-      value: item.id
-    }
-    if (item.children) {
-      tmpItem.children = convertDeptTreeData2TreeSelectData(item.children)
-    }
-    treeSelectData.push(tmpItem)
-  }
-  return treeSelectData
-}
 
 const createUpdateFormRef = ref()
 const createUpdateForm = ref({
   name: '',
-  parent: undefined
+  parent: null
 })
 const createUpdateRules = {
   name: [
@@ -130,7 +117,7 @@ watch(
           }
         } else if (props.title === '修改部门') {
           const { name, parent } = res
-          const parentValue = parent ? parent.id : undefined
+          const parentValue = parent ? parent.id : null
           createUpdateForm.value = {
             name,
             parent: parentValue
