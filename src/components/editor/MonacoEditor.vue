@@ -45,8 +45,8 @@ const props = defineProps({
     required: true
   }
 })
-const aDivWidth = ref(null)
-const aDivHeight = ref(null)
+const aDivWidth = ref('100%')
+const aDivHeight = ref('400px')
 const emit = defineEmits(['update:contentValue'])
 
 watch(

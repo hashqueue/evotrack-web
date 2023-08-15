@@ -9,6 +9,7 @@
     @cancel="onCancel"
     :mask-closable="modalMaskClosable"
     :destroy-on-close="destroyModalOnClose"
+    :confirm-loading="confirmLoading"
   >
     <slot name="form"></slot>
   </a-modal>
@@ -29,6 +30,10 @@ defineProps({
   modalOpen: {
     type: Boolean,
     required: true
+  },
+  confirmLoading: {
+    type: Boolean,
+    required: false
   },
   modalWidth: {
     type: [Number, String],

@@ -110,7 +110,7 @@ const goToGithub = () => {
 }
 const clickUserSetting = ({ item, key, keyPath }) => {
   if (key === '2') {
-    console.log('go to personal center')
+    router.push('/profile')
   } else if (key === '3') {
     // 退出登录
     // 删除当前登录用户拥有的动态路由权限

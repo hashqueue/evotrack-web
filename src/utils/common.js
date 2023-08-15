@@ -3,7 +3,6 @@ import * as AntdIcons from '@ant-design/icons-vue'
 
 import { removeAllItem } from '@/utils/storage'
 import router from '@/router'
-import { permTypeEnum } from '@/utils/enum'
 
 export const redirectToLogin = () => {
   removeAllItem()
@@ -74,30 +73,26 @@ export const generateRouteData = (originMenuPermissionDataArr) => {
   const routeDataObj = {}
   const routeData = []
   for (const item of originMenuPermissionDataArr) {
-    if (item.is_visible) {
-      routeDataObj[item.id] = item
-    }
+    routeDataObj[item.id] = item
   }
   for (const item of originMenuPermissionDataArr) {
-    if (item.is_visible) {
-      if (item.parent !== null) {
-        const pid = item.parent
-        const parent_data = routeDataObj[pid]
-        if (parent_data) {
-          // 如果父级存在，则将当前路由添加到父级的children中
-          const tmpChildren = convertMenuPermission2Route(item)
-          tmpChildren.meta.parentRouteName = parent_data.path
-          tmpChildren.meta.id = item.id
-          tmpChildren.meta.parentId = parent_data.id
-          routeData.push(tmpChildren)
-        }
-      } else {
-        const tmpParent = convertMenuPermission2Route(item)
-        tmpParent.meta.parentRouteName = null
-        tmpParent.meta.parentId = null
-        tmpParent.meta.id = item.id
-        routeData.push(tmpParent)
+    if (item.parent !== null) {
+      const pid = item.parent
+      const parent_data = routeDataObj[pid]
+      if (parent_data) {
+        // 如果父级存在，则将当前路由添加到父级的children中
+        const tmpChildren = convertMenuPermission2Route(item)
+        tmpChildren.meta.parentRouteName = parent_data.path
+        tmpChildren.meta.id = item.id
+        tmpChildren.meta.parentId = parent_data.id
+        routeData.push(tmpChildren)
       }
+    } else {
+      const tmpParent = convertMenuPermission2Route(item)
+      tmpParent.meta.parentRouteName = null
+      tmpParent.meta.parentId = null
+      tmpParent.meta.id = item.id
+      routeData.push(tmpParent)
     }
   }
   return routeData
