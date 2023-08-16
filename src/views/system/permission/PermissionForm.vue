@@ -59,7 +59,11 @@
             placeholder="请输入路由重定向path(/system/users)"
           />
         </a-form-item>
-        <a-form-item name="is_visible" label="是否显示">
+        <a-form-item
+          name="is_visible"
+          label="是否显示"
+          v-show="[1, 2].includes(createUpdateForm.perm_type)"
+        >
           <a-switch v-model:checked="createUpdateForm.is_visible" />
         </a-form-item>
         <a-form-item name="parent" label="父权限" v-if="title !== '新增根权限'">

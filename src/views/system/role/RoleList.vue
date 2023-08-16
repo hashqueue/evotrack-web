@@ -1,5 +1,5 @@
 <template>
-  <a-button type="primary" @click="createRole">新增角色</a-button>
+  <a-button type="primary" @click="createRole" v-permission="'新增角色'">新增角色</a-button>
   <standard-table
     :data-source="dataList"
     :loading="tableLoading"
@@ -12,9 +12,9 @@
       <!--  record: 具名插槽作用域传值(父插槽内容中获取子组件数据record)  -->
       <template v-if="column.key === 'action'">
         <span>
-          <a @click="updateRole(record)">修改</a>
+          <a @click="updateRole(record)" v-permission="'修改角色'">修改</a>
           <a-divider type="vertical" />
-          <a @click="setPermissions(record)">设置权限</a>
+          <a @click="setPermissions(record)" v-permission="'修改角色'">设置权限</a>
           <a-divider type="vertical" />
           <a-popconfirm
             title="确定删除该角色吗？"
@@ -22,7 +22,7 @@
             cancel-text="取消"
             @confirm="deleteRole(record.id)"
           >
-            <a>删除</a>
+            <a v-permission="'删除角色'">删除</a>
           </a-popconfirm>
         </span>
       </template>

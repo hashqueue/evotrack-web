@@ -1,5 +1,7 @@
 <template>
-  <a-button type="primary" @click="createRootDepartment">新增根部门</a-button>
+  <a-button type="primary" @click="createRootDepartment" v-permission="'新增部门'"
+    >新增根部门</a-button
+  >
   <standard-table
     :data-source="dataList"
     :columns="columns"
@@ -11,9 +13,9 @@
     <template #action="{ column, record }">
       <template v-if="column.key === 'action'">
         <span>
-          <a @click="createSubDepartment(record)">添加子部门</a>
+          <a @click="createSubDepartment(record)" v-permission="'新增部门'">添加子部门</a>
           <a-divider type="vertical" />
-          <a @click="updateDepartment(record)">修改</a>
+          <a @click="updateDepartment(record)" v-permission="'修改部门'">修改</a>
           <a-divider type="vertical" />
           <a-popconfirm
             title="确定删除该部门吗？"
@@ -21,7 +23,7 @@
             cancel-text="取消"
             @confirm="deleteDepartment(record.id)"
           >
-            <a>删除</a>
+            <a v-permission="'删除部门'">删除</a>
           </a-popconfirm>
         </span>
       </template>

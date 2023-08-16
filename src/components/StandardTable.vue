@@ -19,6 +19,7 @@
       <slot name="action" :column="column" :record="record"></slot>
     </template>
   </a-table>
+  <a-empty v-else />
 </template>
 
 <script setup>

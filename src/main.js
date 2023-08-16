@@ -6,7 +6,7 @@ import * as AntdIcons from '@ant-design/icons-vue'
 import pinia from '@/stores'
 import App from './App.vue'
 import router from './router'
-import './permission'
+import { permission } from '@/permission'
 
 const app = createApp(App)
 
@@ -15,6 +15,7 @@ for (const [name, component] of Object.entries(AntdIcons)) {
   app.component(name, component)
 }
 
+app.directive('permission', permission)
 app.use(pinia)
 app.use(router)
 app.use(Antd)

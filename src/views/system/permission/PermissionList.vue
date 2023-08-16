@@ -1,5 +1,7 @@
 <template>
-  <a-button type="primary" @click="createRootPermission">新增根权限</a-button>
+  <a-button type="primary" @click="createRootPermission" v-permission="'新增权限'"
+    >新增根权限</a-button
+  >
   <standard-table
     :default-expand-all-rows="true"
     :data-source="dataList"
@@ -32,17 +34,30 @@
           type="link"
           @click="createSubPermission(record)"
           :disabled="record.perm_type === 3"
+          v-permission="'新增权限'"
           >添加子权限</a-button
         >
-        <a-button class="action-btn" type="link" @click="updatePermission(record)">修改</a-button>
-        <a-button class="action-btn" type="link" @click="copyPermission(record)">复制</a-button>
+        <a-button
+          class="action-btn"
+          type="link"
+          @click="updatePermission(record)"
+          v-permission="'修改权限'"
+          >修改</a-button
+        >
+        <a-button
+          class="action-btn"
+          type="link"
+          @click="copyPermission(record)"
+          v-permission="'新增权限'"
+          >复制</a-button
+        >
         <a-popconfirm
           title="确定删除该权限吗？"
           ok-text="确定"
           cancel-text="取消"
           @confirm="deletePermission(record.id)"
         >
-          <a-button type="link">删除</a-button>
+          <a-button type="link" v-permission="'删除权限'">删除</a-button>
         </a-popconfirm>
       </template>
     </template>

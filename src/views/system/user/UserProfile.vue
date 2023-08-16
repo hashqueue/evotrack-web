@@ -23,7 +23,9 @@
         userInfo.gender === 1 ? '男' : '女'
       }}</a-descriptions-item>
       <a-descriptions-item label="职位">{{ userInfo.position }}</a-descriptions-item>
-      <a-descriptions-item label="部门">{{ userInfo.department.name }}</a-descriptions-item>
+      <a-descriptions-item label="部门" v-if="userInfo.department">{{
+        userInfo.department.name
+      }}</a-descriptions-item>
       <a-descriptions-item label="加入时间">{{ userInfo.date_joined }}</a-descriptions-item>
       <a-descriptions-item label="角色">
         <template v-for="(role, index) in userInfo.roles" :key="index">
@@ -195,24 +197,28 @@ const onResetOk = () => {
     .validateFields()
     .then((values) => {
       resetConfirmLoading.value = true
-      resetUserPassword(values).then(() => {
-        message.success('您已成功修改密码, 请重新登录')
-        resetConfirmLoading.value = false
-        resetModalOpen.value = false
-        resetFormRef.value.resetFields()
-        // 删除当前登录用户拥有的动态路由权限
-        for (const menuPermission of userStore.getMenuPermissions) {
-          if (router.hasRoute(menuPermission.path)) {
-            router.removeRoute(menuPermission.path)
+      resetUserPassword(values)
+        .then(() => {
+          message.success('您已成功修改密码, 请重新登录')
+          resetConfirmLoading.value = false
+          resetModalOpen.value = false
+          resetFormRef.value.resetFields()
+          // 删除当前登录用户拥有的动态路由权限
+          for (const menuPermission of userStore.getMenuPermissions) {
+            if (router.hasRoute(menuPermission.path)) {
+              router.removeRoute(menuPermission.path)
+            }
           }
-        }
-        // 重置store的数据
-        userStore.$reset()
-        // 清除本地存储的数据
-        removeAllItem()
-        // 跳转到登录页
-        router.push('/login')
-      })
+          // 重置store的数据
+          userStore.$reset()
+          // 清除本地存储的数据
+          removeAllItem()
+          // 跳转到登录页
+          router.push('/login')
+        })
+        .catch(() => {
+          resetConfirmLoading.value = false
+        })
     })
     .catch((info) => {
       console.log('Validate Failed:', info)
