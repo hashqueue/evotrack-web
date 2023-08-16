@@ -106,7 +106,7 @@ const goToApiDocs = () => {
   }
 }
 const goToGithub = () => {
-  window.open('https://github.com/hashqueue/sugar')
+  window.open('https://github.com/hashqueue/evotrack')
 }
 const clickUserSetting = ({ item, key, keyPath }) => {
   if (key === '2') {
