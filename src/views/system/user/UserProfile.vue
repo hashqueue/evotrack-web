@@ -26,7 +26,7 @@
       <a-descriptions-item label="邮箱">{{ userInfo.email }}</a-descriptions-item>
       <a-descriptions-item label="昵称">{{ userInfo.nick_name }}</a-descriptions-item>
       <a-descriptions-item label="性别">{{
-        userInfo.gender === 1 ? '男' : '女'
+        userInfo.gender ? genderEnum[userInfo.gender].value : ''
       }}</a-descriptions-item>
       <a-descriptions-item label="职位">{{ userInfo.position }}</a-descriptions-item>
       <a-descriptions-item label="部门" v-if="userInfo.department">{{
@@ -121,7 +121,7 @@ import { getUserProfile, resetUserPassword, updateUserProfile } from '@/apis/sys
 import { removeAllItem } from '@/utils/storage'
 import StandardModal from '@/components/StandardModal.vue'
 import { useUserStore } from '@/stores/user'
-import { btnPermissions } from '@/utils/enum'
+import { btnPermissions, genderEnum } from '@/utils/enum'
 
 const router = useRouter()
 const userStore = useUserStore()
