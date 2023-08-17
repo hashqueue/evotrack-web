@@ -1,5 +1,7 @@
 <template>
-  <a-button type="primary" @click="createRole" v-permission="'新增角色'">新增角色</a-button>
+  <a-button type="primary" @click="createRole" v-permission="btnPermissions.role.create"
+    >新增角色</a-button
+  >
   <standard-table
     :data-source="dataList"
     :loading="tableLoading"
@@ -12,9 +14,9 @@
       <!--  record: 具名插槽作用域传值(父插槽内容中获取子组件数据record)  -->
       <template v-if="column.key === 'action'">
         <span>
-          <a @click="updateRole(record)" v-permission="'修改角色'">修改</a>
+          <a @click="updateRole(record)" v-permission="btnPermissions.role.update">修改</a>
           <a-divider type="vertical" />
-          <a @click="setPermissions(record)" v-permission="'修改角色'">设置权限</a>
+          <a @click="setPermissions(record)" v-permission="btnPermissions.role.update">设置权限</a>
           <a-divider type="vertical" />
           <a-popconfirm
             title="确定删除该角色吗？"
@@ -22,7 +24,7 @@
             cancel-text="取消"
             @confirm="deleteRole(record.id)"
           >
-            <a v-permission="'删除角色'">删除</a>
+            <a v-permission="btnPermissions.role.delete">删除</a>
           </a-popconfirm>
         </span>
       </template>
@@ -72,7 +74,7 @@ import {
 import { getPermissionTreeList } from '@/apis/system/permission'
 import RoleForm from './RoleForm.vue'
 import StandardTable from '@/components/StandardTable.vue'
-import { permTypeEnum } from '@/utils/enum'
+import { btnPermissions, permTypeEnum } from '@/utils/enum'
 
 const dataList = ref([])
 const title = ref('新增角色')

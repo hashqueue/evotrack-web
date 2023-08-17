@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import ExceptionView from '@/components/exceptions/ExceptionView.vue'
+import ExceptionView from '@/components/ExceptionView.vue'
 </script>
 
 <style scoped></style>

@@ -1,5 +1,8 @@
 <template>
-  <a-button type="primary" @click="createRootPermission" v-permission="'新增权限'"
+  <a-button
+    type="primary"
+    @click="createRootPermission"
+    v-permission="btnPermissions.permission.create"
     >新增根权限</a-button
   >
   <standard-table
@@ -34,21 +37,21 @@
           type="link"
           @click="createSubPermission(record)"
           :disabled="record.perm_type === 3"
-          v-permission="'新增权限'"
+          v-permission="btnPermissions.permission.create"
           >添加子权限</a-button
         >
         <a-button
           class="action-btn"
           type="link"
           @click="updatePermission(record)"
-          v-permission="'修改权限'"
+          v-permission="btnPermissions.permission.update"
           >修改</a-button
         >
         <a-button
           class="action-btn"
           type="link"
           @click="copyPermission(record)"
-          v-permission="'新增权限'"
+          v-permission="btnPermissions.permission.create"
           >复制</a-button
         >
         <a-popconfirm
@@ -57,7 +60,7 @@
           cancel-text="取消"
           @confirm="deletePermission(record.id)"
         >
-          <a-button type="link" v-permission="'删除权限'">删除</a-button>
+          <a-button type="link" v-permission="btnPermissions.permission.delete">删除</a-button>
         </a-popconfirm>
       </template>
     </template>
@@ -76,7 +79,7 @@ import { ref } from 'vue'
 import { getPermissionTreeList, deletePermissionDetail } from '@/apis/system/permission'
 import PermissionForm from './PermissionForm.vue'
 import StandardTable from '@/components/StandardTable.vue'
-import { permTypeEnum } from '@/utils/enum'
+import { permTypeEnum, btnPermissions } from '@/utils/enum'
 
 const dataList = ref([])
 const modalOpen = ref(false)
@@ -110,7 +113,7 @@ const columns = [
   {
     title: '路由path',
     dataIndex: 'path',
-    width: 250,
+    width: 150,
     key: 'path'
   },
   {
@@ -122,7 +125,7 @@ const columns = [
   {
     title: '路由重定向path',
     dataIndex: 'redirect',
-    width: 250,
+    width: 200,
     key: 'redirect'
   },
   {

@@ -27,12 +27,14 @@
           </a-radio-group>
         </a-form-item>
         <a-form-item name="icon" label="图标" v-show="[1, 2].includes(createUpdateForm.perm_type)">
-          <a-input
+          <a-select
             v-model:value="createUpdateForm.icon"
-            placeholder="请输入图标code(详见https://www.antdv.com/components/icon-cn)"
-            addon-before="<"
-            addon-after="/>"
-          />
+            placeholder="请输选择图标"
+            :options="iconOptions"
+            allow-clear
+          >
+            <template #option="{ value }"><component :is="value" /> - {{ value }}</template>
+          </a-select>
         </a-form-item>
         <a-form-item name="component" label="组件路径" v-show="createUpdateForm.perm_type === 1">
           <a-input
@@ -90,6 +92,7 @@ import {
 } from '@/apis/system/permission'
 import StandardModal from '@/components/StandardModal.vue'
 import { permTypeEnum } from '@/utils/enum'
+import { getIconOptions } from '@/utils/common'
 
 const props = defineProps({
   permissionId: {
@@ -107,6 +110,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'getLatestPermissionList'])
 
+const iconOptions = getIconOptions()
 const labelCol = { span: 4 }
 const wrapperCol = { span: 20 }
 
@@ -132,7 +136,7 @@ const createUpdateFormRef = ref()
 const createUpdateForm = ref({
   name: '',
   perm_type: 1,
-  icon: '',
+  icon: null,
   component: '',
   path: null,
   redirect: '',
@@ -153,6 +157,10 @@ const onOk = () => {
   createUpdateFormRef.value
     .validateFields()
     .then((values) => {
+      if (values.icon === null) {
+        // 如果icon为null，后端会报错，所以这里要把icon置为空字符串
+        values.icon = ''
+      }
       if (props.title === '修改权限') {
         updatePermission(props.permissionId, values).then(() => {
           // 重新获取一遍权限信息
@@ -188,7 +196,7 @@ watch(
           createUpdateForm.value = {
             name: '',
             perm_type: 1,
-            icon: '',
+            icon: null,
             component: '',
             path: null,
             redirect: '',

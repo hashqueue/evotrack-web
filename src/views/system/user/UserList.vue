@@ -1,5 +1,7 @@
 <template>
-  <a-button type="primary" @click="createUser" v-permission="'新增用户'">新增用户</a-button>
+  <a-button type="primary" @click="createUser" v-permission="btnPermissions.user.create"
+    >新增用户</a-button
+  >
   <standard-table
     :data-source="dataList"
     :columns="columns"
@@ -11,7 +13,7 @@
     <template #action="{ column, record }">
       <template v-if="column.key === 'action'">
         <span>
-          <a @click="updateUser(record)" v-permission="'修改用户'">修改</a>
+          <a @click="updateUser(record)" v-permission="btnPermissions.user.update">修改</a>
           <a-divider type="vertical" />
           <a-popconfirm
             title="确定删除该用户吗？"
@@ -19,7 +21,7 @@
             cancel-text="取消"
             @confirm="deleteUser(record.id)"
           >
-            <a v-permission="'删除用户'">删除</a>
+            <a v-permission="btnPermissions.user.delete">删除</a>
           </a-popconfirm>
         </span>
       </template>
@@ -48,7 +50,7 @@
 import { ref } from 'vue'
 import { deleteUserDetail, getUserList } from '@/apis/system/user'
 import UserForm from './UserForm.vue'
-import { genderEnum } from '@/utils/enum'
+import { genderEnum, btnPermissions } from '@/utils/enum'
 import StandardTable from '@/components/StandardTable.vue'
 
 const dataList = ref([])

@@ -114,6 +114,18 @@ const transformIconString = (inputIconString) => {
   return capitalizedWords.join('')
 }
 
+export const getIconOptions = () => {
+  const iconOptions = []
+  for (const name of Object.keys(AntdIcons)) {
+    if (!['createFromIconfontCN', 'getTwoToneColor', 'setTwoToneColor', 'default'].includes(name)) {
+      iconOptions.push({
+        value: name
+      })
+    }
+  }
+  return iconOptions
+}
+
 /**
  * 根据用户的原始菜单权限数据转换为标准的树结构的菜单格式数据
  */
@@ -127,7 +139,7 @@ export const generateTreeMenuData = (originMenuPermissionDataArr) => {
         title: item.name
       }
       if (item.icon) {
-        tmpMenuData.icon = () => h(AntdIcons[transformIconString(item.icon)])
+        tmpMenuData.icon = () => h(AntdIcons[item.icon])
       }
       treeObj[item.id] = tmpMenuData
     }

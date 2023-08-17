@@ -3,11 +3,17 @@
     <template #actions>
       <a-tooltip>
         <template #title>修改个人信息</template>
-        <edit-outlined @click="editProfile" />
+        <edit-outlined
+          @click="editProfile"
+          v-permission="btnPermissions.userProfile.updateProfile"
+        />
       </a-tooltip>
       <a-tooltip>
         <template #title>重置密码</template>
-        <unlock-outlined @click="resetPassword" />
+        <unlock-outlined
+          @click="resetPassword"
+          v-permission="btnPermissions.userProfile.resetPassword"
+        />
       </a-tooltip>
     </template>
     <a-card-meta title="个人资料" description="心之所向，素履以往~">
@@ -115,6 +121,7 @@ import { getUserProfile, resetUserPassword, updateUserProfile } from '@/apis/sys
 import { removeAllItem } from '@/utils/storage'
 import StandardModal from '@/components/StandardModal.vue'
 import { useUserStore } from '@/stores/user'
+import { btnPermissions } from '@/utils/enum'
 
 const router = useRouter()
 const userStore = useUserStore()

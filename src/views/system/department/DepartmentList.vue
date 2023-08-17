@@ -1,5 +1,8 @@
 <template>
-  <a-button type="primary" @click="createRootDepartment" v-permission="'新增部门'"
+  <a-button
+    type="primary"
+    @click="createRootDepartment"
+    v-permission="btnPermissions.department.create"
     >新增根部门</a-button
   >
   <standard-table
@@ -13,9 +16,13 @@
     <template #action="{ column, record }">
       <template v-if="column.key === 'action'">
         <span>
-          <a @click="createSubDepartment(record)" v-permission="'新增部门'">添加子部门</a>
+          <a @click="createSubDepartment(record)" v-permission="btnPermissions.department.create"
+            >添加子部门</a
+          >
           <a-divider type="vertical" />
-          <a @click="updateDepartment(record)" v-permission="'修改部门'">修改</a>
+          <a @click="updateDepartment(record)" v-permission="btnPermissions.department.update"
+            >修改</a
+          >
           <a-divider type="vertical" />
           <a-popconfirm
             title="确定删除该部门吗？"
@@ -23,7 +30,7 @@
             cancel-text="取消"
             @confirm="deleteDepartment(record.id)"
           >
-            <a v-permission="'删除部门'">删除</a>
+            <a v-permission="btnPermissions.department.delete">删除</a>
           </a-popconfirm>
         </span>
       </template>
@@ -43,6 +50,7 @@ import { ref } from 'vue'
 import { getDepartmentTreeList, deleteDepartmentDetail } from '@/apis/system/department'
 import DepartmentForm from './DepartmentForm.vue'
 import StandardTable from '@/components/StandardTable.vue'
+import { btnPermissions } from '@/utils/enum'
 
 const dataList = ref([])
 const modalOpen = ref(false)
