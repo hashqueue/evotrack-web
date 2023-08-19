@@ -64,7 +64,7 @@ import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import * as THREE from 'three'
-import CompObj from 'vanta/dist/vanta.ripple.min' // (ripple || fog || waves || clouds)
+import CompObj from 'vanta/dist/vanta.clouds.min' // (ripple || fog || waves || clouds)
 
 import { login } from '@/apis/auth/login'
 import { useUserStore } from '@/stores/user'
