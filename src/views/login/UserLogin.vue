@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, onUnmounted, onBeforeUnmount, onMounted } from 'vue'
+import { reactive, ref, onBeforeUnmount, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
@@ -78,7 +78,6 @@ const titleDesc = import.meta.env.VITE_TITLE_DESC
 const box = ref(null)
 //创建一个全局的变量来使用vanta.js
 let vantaEffect = null
-let pushToDashboardInterval
 //在两个生命周期钩子内创建vantaEffect
 onMounted(() => {
   vantaEffect = CompObj({
@@ -109,11 +108,9 @@ const onLoginFinish = (values) => {
   login(values)
     .then((res) => {
       userStore.setToken(res.access)
-      pushToDashboardInterval = setInterval(() => {
-        loginFormRef.value.resetFields()
-        spinning.value = false
-        router.push('/dashboard')
-      }, 2000)
+      loginFormRef.value.resetFields()
+      router.push('/dashboard')
+      spinning.value = false
     })
     .catch(() => {
       spinning.value = false
@@ -122,10 +119,6 @@ const onLoginFinish = (values) => {
 const onLoginFinishFailed = () => {
   message.error('输入有误')
 }
-onUnmounted(() => {
-  // 取消定时器
-  clearInterval(pushToDashboardInterval)
-})
 </script>
 
 <style scoped lang="less">
