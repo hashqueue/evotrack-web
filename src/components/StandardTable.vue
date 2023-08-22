@@ -1,7 +1,6 @@
 <template>
   <slot name="tableFilter"></slot>
   <a-table
-    v-if="dataSource.length"
     :columns="columns"
     :data-source="dataSource"
     :scroll="scroll"
@@ -11,7 +10,6 @@
     :pagination="pagination"
     :loading="loading"
     @change="onPageChange"
-    :default-expand-all-rows="defaultExpandAllRows"
     :size="tableSize"
     style="margin-top: 8px"
   >
@@ -19,7 +17,6 @@
       <slot name="action" :column="column" :record="record"></slot>
     </template>
   </a-table>
-  <a-empty v-else />
 </template>
 
 <script setup>
@@ -39,11 +36,6 @@ defineProps({
   // x,y轴是否可滚动
   scroll: {
     type: Object,
-    required: false
-  },
-  defaultExpandAllRows: {
-    type: Boolean,
-    default: false,
     required: false
   },
   rowKey: {

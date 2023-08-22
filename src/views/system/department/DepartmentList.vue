@@ -10,7 +10,6 @@
     :columns="columns"
     :loading="tableLoading"
     :row-key="'id'"
-    :default-expand-all-rows="true"
     :pagination="{ hideOnSinglePage: true }"
   >
     <template #action="{ column, record }">

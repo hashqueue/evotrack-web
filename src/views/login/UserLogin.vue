@@ -107,10 +107,12 @@ const onLoginFinish = (values) => {
   spinning.value = true
   login(values)
     .then((res) => {
+      // setTimeout(() => {
       userStore.setToken(res.access)
       loginFormRef.value.resetFields()
-      router.push('/dashboard')
       spinning.value = false
+      router.push('/dashboard')
+      // }, 3000)
     })
     .catch(() => {
       spinning.value = false

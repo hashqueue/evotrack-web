@@ -6,7 +6,7 @@ import { useUserStore } from '@/stores/user'
 
 const TOKEN_INVALID = 'Token认证失败, 请重新登录'
 const NETWORK_ERROR = '网络请求异常, 请稍后重试'
-const REQUEST_API_SUCCESS = '请求后端接口成功'
+// const REQUEST_API_SUCCESS = '请求后端接口成功'
 
 const service = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
@@ -29,13 +29,13 @@ service.interceptors.request.use(
       return requestConfig
     } else {
       // token不存在，清除localstorage的所有数据，重定向到登录页面
-      antMessage.error(TOKEN_INVALID, 6)
+      antMessage.error(TOKEN_INVALID, 3)
       redirectToLogin()
     }
   },
   (error) => {
     console.log(error)
-    antMessage.error(error.message || '请求后端接口时出现未知错误', 6)
+    antMessage.error(error.message || '请求后端接口时出现未知错误', 3)
     return Promise.reject(error)
   }
 )
@@ -48,12 +48,12 @@ service.interceptors.response.use(
     // console.log(response)
     const { success, data, message } = response.data
     if (success || response.status === 204) {
-      antMessage.success(message || REQUEST_API_SUCCESS, 1)
+      // antMessage.success(message || REQUEST_API_SUCCESS, 1)
       return data
     } else {
       // 业务错误
       console.warn('业务错误')
-      antMessage.error(message || NETWORK_ERROR, 6)
+      antMessage.error(message || NETWORK_ERROR, 3)
       return Promise.reject(message || NETWORK_ERROR)
     }
   },
@@ -62,7 +62,7 @@ service.interceptors.response.use(
     if (error.response.status === 401) {
       redirectToLogin()
     }
-    antMessage.error(error.response.data.message || error.message, 6)
+    antMessage.error(error.response.data.message || error.message, 3)
     return Promise.reject(error)
   }
 )

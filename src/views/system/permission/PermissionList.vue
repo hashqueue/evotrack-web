@@ -6,7 +6,6 @@
     >新增根权限</a-button
   >
   <standard-table
-    :default-expand-all-rows="true"
     :data-source="dataList"
     :columns="columns"
     :scroll="{ x: '100%', y: '100%' }"
