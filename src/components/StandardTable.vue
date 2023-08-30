@@ -9,8 +9,11 @@
     :row-selection="rowSelection"
     :pagination="pagination"
     :loading="loading"
-    @change="onPageChange"
     :size="tableSize"
+    :expanded-row-keys="expandedRowKeys"
+    :expand-row-by-click="expandRowByClick"
+    @change="onPageChange"
+    @expandedRowsChange="onExpandedRowsChange"
     style="margin-top: 8px"
   >
     <template #bodyCell="{ column, record }">
@@ -57,12 +60,24 @@ defineProps({
     type: String,
     required: false,
     default: 'large'
+  },
+  expandedRowKeys: {
+    type: Array,
+    required: false
+  },
+  expandRowByClick: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
-const emit = defineEmits(['onPageChange'])
+const emit = defineEmits(['onPageChange', 'onExpandedRowsChange'])
 
 const onPageChange = (pagination, filters, sorter, { currentDataSource }) => {
   emit('onPageChange', pagination, filters, sorter, currentDataSource)
+}
+const onExpandedRowsChange = (expandedRows) => {
+  emit('onExpandedRowsChange', expandedRows)
 }
 </script>
 

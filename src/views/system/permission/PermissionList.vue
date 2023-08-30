@@ -13,6 +13,9 @@
     :row-key="'id'"
     :table-size="'small'"
     :pagination="{ hideOnSinglePage: true }"
+    :expanded-row-keys="expandedRowKeys"
+    :expand-row-by-click="true"
+    @on-expanded-rows-change="onExpandedRowsChange"
   >
     <template #action="{ column, record }">
       <template v-if="column.key === 'perm_type'">
@@ -79,8 +82,10 @@ import { getPermissionTreeList, deletePermissionDetail } from '@/apis/system/per
 import PermissionForm from './PermissionForm.vue'
 import StandardTable from '@/components/StandardTable.vue'
 import { permTypeEnum, btnPermissions } from '@/utils/enum'
+import { filterDefaultExpandedRowKeys } from '@/utils/common'
 
 const dataList = ref([])
+const expandedRowKeys = ref([])
 const modalOpen = ref(false)
 const tableLoading = ref(false)
 const title = ref('新增根权限')
@@ -89,6 +94,7 @@ const permissionId = ref(null)
 const getPermissionTreeListData = () => {
   tableLoading.value = true
   getPermissionTreeList().then((res) => {
+    expandedRowKeys.value = filterDefaultExpandedRowKeys(res.results)
     dataList.value = res.results
     tableLoading.value = false
   })
@@ -164,6 +170,9 @@ const columns = [
     fixed: 'right'
   }
 ]
+const onExpandedRowsChange = (expandedRows) => {
+  expandedRowKeys.value = expandedRows
+}
 
 const createRootPermission = () => {
   title.value = '新增根权限'

@@ -11,6 +11,9 @@
     :loading="tableLoading"
     :row-key="'id'"
     :pagination="{ hideOnSinglePage: true }"
+    :expanded-row-keys="expandedRowKeys"
+    :expand-row-by-click="true"
+    @on-expanded-rows-change="onExpandedRowsChange"
   >
     <template #action="{ column, record }">
       <template v-if="column.key === 'action'">
@@ -50,8 +53,10 @@ import { getDepartmentTreeList, deleteDepartmentDetail } from '@/apis/system/dep
 import DepartmentForm from './DepartmentForm.vue'
 import StandardTable from '@/components/StandardTable.vue'
 import { btnPermissions } from '@/utils/enum'
+import { filterDefaultExpandedRowKeys } from '@/utils/common'
 
 const dataList = ref([])
+const expandedRowKeys = ref([])
 const modalOpen = ref(false)
 const tableLoading = ref(false)
 const title = ref('新增根部门')
@@ -60,6 +65,7 @@ const departmentId = ref(null)
 const getDepartmentTreeListData = () => {
   tableLoading.value = true
   getDepartmentTreeList().then((res) => {
+    expandedRowKeys.value = filterDefaultExpandedRowKeys(res.results)
     dataList.value = res.results
     tableLoading.value = false
   })
@@ -96,6 +102,9 @@ const columns = [
     key: 'action'
   }
 ]
+const onExpandedRowsChange = (expandedRows) => {
+  expandedRowKeys.value = expandedRows
+}
 
 const createRootDepartment = () => {
   title.value = '新增根部门'

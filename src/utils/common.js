@@ -19,6 +19,11 @@ export const isSelectOptionsIncludeSelectedData = (originOptions, data, OriginOp
   return result
 }
 
+/**
+ * 将树结构的部门数据转换为TreeSelect组件可用的数据
+ * @param treeData
+ * @returns {*[]}
+ */
 export const convertDeptTreeData2TreeSelectData = (treeData) => {
   const treeSelectData = []
   for (const item of treeData) {
@@ -32,6 +37,22 @@ export const convertDeptTreeData2TreeSelectData = (treeData) => {
     treeSelectData.push(tmpItem)
   }
   return treeSelectData
+}
+
+/**
+ * 从树结构的数据过滤出默认需要展开的节点
+ * @param treeData
+ * @returns {*[]}
+ */
+export const filterDefaultExpandedRowKeys = (treeData) => {
+  const expandedRowKeys = []
+  for (const item of treeData) {
+    if (item.children) {
+      expandedRowKeys.push(item.id)
+      expandedRowKeys.push(...filterDefaultExpandedRowKeys(item.children))
+    }
+  }
+  return expandedRowKeys
 }
 
 /**
@@ -114,6 +135,10 @@ const transformIconString = (inputIconString) => {
   return capitalizedWords.join('')
 }
 
+/**
+ * 生成icon选择器的选项
+ * @returns {*[]}
+ */
 export const getIconOptions = () => {
   const iconOptions = []
   for (const name of Object.keys(AntdIcons)) {
