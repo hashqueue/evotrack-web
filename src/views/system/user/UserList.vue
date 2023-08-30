@@ -1,7 +1,4 @@
 <template>
-  <a-button type="primary" @click="createUser" v-permission="btnPermissions.user.create"
-    >新增用户</a-button
-  >
   <standard-table
     :data-source="dataList"
     :columns="columns"
@@ -10,6 +7,11 @@
     :pagination="paginationData"
     @on-page-change="onPageChange"
   >
+    <template #tableFilter>
+      <a-button type="primary" @click="createUser" v-permission="btnPermissions.user.create"
+        >新增用户</a-button
+      >
+    </template>
     <template #action="{ column, record }">
       <template v-if="column.key === 'action'">
         <span>

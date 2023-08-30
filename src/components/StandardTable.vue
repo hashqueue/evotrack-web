@@ -14,7 +14,7 @@
     :expand-row-by-click="expandRowByClick"
     @change="onPageChange"
     @expandedRowsChange="onExpandedRowsChange"
-    style="margin-top: 8px"
+    style="margin-top: 16px"
   >
     <template #bodyCell="{ column, record }">
       <slot name="action" :column="column" :record="record"></slot>

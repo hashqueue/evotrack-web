@@ -1,7 +1,4 @@
 <template>
-  <a-button type="primary" @click="createRole" v-permission="btnPermissions.role.create"
-    >新增角色</a-button
-  >
   <standard-table
     :data-source="dataList"
     :loading="tableLoading"
@@ -10,6 +7,11 @@
     :pagination="paginationData"
     @on-page-change="onPageChange"
   >
+    <template #tableFilter>
+      <a-button type="primary" @click="createRole" v-permission="btnPermissions.role.create"
+        >新增角色</a-button
+      >
+    </template>
     <template #action="{ column, record }">
       <!--  record: 具名插槽作用域传值(父插槽内容中获取子组件数据record)  -->
       <template v-if="column.key === 'action'">

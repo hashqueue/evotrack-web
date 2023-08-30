@@ -1,10 +1,4 @@
 <template>
-  <a-button
-    type="primary"
-    @click="createRootPermission"
-    v-permission="btnPermissions.permission.create"
-    >新增根权限</a-button
-  >
   <standard-table
     :data-source="dataList"
     :columns="columns"
@@ -17,6 +11,14 @@
     :expand-row-by-click="true"
     @on-expanded-rows-change="onExpandedRowsChange"
   >
+    <template #tableFilter>
+      <a-button
+        type="primary"
+        @click="createRootPermission"
+        v-permission="btnPermissions.permission.create"
+        >新增根权限</a-button
+      >
+    </template>
     <template #action="{ column, record }">
       <template v-if="column.key === 'perm_type'">
         <a-tag :color="permTypeEnum[record.perm_type].color">
