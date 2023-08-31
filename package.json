@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
-    "ant-design-vue": "^4.0.1",
+    "ant-design-vue": "^4.0.2",
     "axios": "^1.5.0",
     "dayjs": "^1.11.9",
     "monaco-editor": "^0.41.0",
