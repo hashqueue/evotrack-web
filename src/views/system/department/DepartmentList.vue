@@ -1,45 +1,47 @@
 <template>
-  <standard-table
-    :data-source="dataList"
-    :columns="columns"
-    :loading="tableLoading"
-    :row-key="'id'"
-    :pagination="{ hideOnSinglePage: true }"
-    :expanded-row-keys="expandedRowKeys"
-    :expand-row-by-click="true"
-    @on-expanded-rows-change="onExpandedRowsChange"
-  >
-    <template #tableFilter>
-      <a-button
-        type="primary"
-        @click="createRootDepartment"
-        v-permission="btnPermissions.department.create"
-        >新增根部门</a-button
-      >
-    </template>
-    <template #action="{ column, record }">
-      <template v-if="column.key === 'action'">
-        <span>
-          <a @click="createSubDepartment(record)" v-permission="btnPermissions.department.create"
-            >添加子部门</a
-          >
-          <a-divider type="vertical" />
-          <a @click="updateDepartment(record)" v-permission="btnPermissions.department.update"
-            >修改</a
-          >
-          <a-divider type="vertical" />
-          <a-popconfirm
-            title="确定删除该部门吗？"
-            ok-text="确定"
-            cancel-text="取消"
-            @confirm="deleteDepartment(record.id)"
-          >
-            <a v-permission="btnPermissions.department.delete">删除</a>
-          </a-popconfirm>
-        </span>
+  <a-card>
+    <standard-table
+      :data-source="dataList"
+      :columns="columns"
+      :loading="tableLoading"
+      :row-key="'id'"
+      :pagination="{ hideOnSinglePage: true }"
+      :expanded-row-keys="expandedRowKeys"
+      :expand-row-by-click="true"
+      @on-expanded-rows-change="onExpandedRowsChange"
+    >
+      <template #tableFilter>
+        <a-button
+          type="primary"
+          @click="createRootDepartment"
+          v-permission="btnPermissions.department.create"
+          >新增根部门</a-button
+        >
       </template>
-    </template>
-  </standard-table>
+      <template #action="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <span>
+            <a @click="createSubDepartment(record)" v-permission="btnPermissions.department.create"
+              >添加子部门</a
+            >
+            <a-divider type="vertical" />
+            <a @click="updateDepartment(record)" v-permission="btnPermissions.department.update"
+              >修改</a
+            >
+            <a-divider type="vertical" />
+            <a-popconfirm
+              title="确定删除该部门吗？"
+              ok-text="确定"
+              cancel-text="取消"
+              @confirm="deleteDepartment(record.id)"
+            >
+              <a v-permission="btnPermissions.department.delete">删除</a>
+            </a-popconfirm>
+          </span>
+        </template>
+      </template>
+    </standard-table>
+  </a-card>
   <department-form
     :modal-open="modalOpen"
     :title="title"

@@ -1,37 +1,41 @@
 <template>
-  <standard-table
-    :data-source="dataList"
-    :loading="tableLoading"
-    :columns="columns"
-    :row-key="'id'"
-    :pagination="paginationData"
-    @on-page-change="onPageChange"
-  >
-    <template #tableFilter>
-      <a-button type="primary" @click="createRole" v-permission="btnPermissions.role.create"
-        >新增角色</a-button
-      >
-    </template>
-    <template #action="{ column, record }">
-      <!--  record: 具名插槽作用域传值(父插槽内容中获取子组件数据record)  -->
-      <template v-if="column.key === 'action'">
-        <span>
-          <a @click="updateRole(record)" v-permission="btnPermissions.role.update">修改</a>
-          <a-divider type="vertical" />
-          <a @click="setPermissions(record)" v-permission="btnPermissions.role.update">设置权限</a>
-          <a-divider type="vertical" />
-          <a-popconfirm
-            title="确定删除该角色吗？"
-            ok-text="确定"
-            cancel-text="取消"
-            @confirm="deleteRole(record.id)"
-          >
-            <a v-permission="btnPermissions.role.delete">删除</a>
-          </a-popconfirm>
-        </span>
+  <a-card>
+    <standard-table
+      :data-source="dataList"
+      :loading="tableLoading"
+      :columns="columns"
+      :row-key="'id'"
+      :pagination="paginationData"
+      @on-page-change="onPageChange"
+    >
+      <template #tableFilter>
+        <a-button type="primary" @click="createRole" v-permission="btnPermissions.role.create"
+          >新增角色</a-button
+        >
       </template>
-    </template>
-  </standard-table>
+      <template #action="{ column, record }">
+        <!--  record: 具名插槽作用域传值(父插槽内容中获取子组件数据record)  -->
+        <template v-if="column.key === 'action'">
+          <span>
+            <a @click="updateRole(record)" v-permission="btnPermissions.role.update">修改</a>
+            <a-divider type="vertical" />
+            <a @click="setPermissions(record)" v-permission="btnPermissions.role.update"
+              >设置权限</a
+            >
+            <a-divider type="vertical" />
+            <a-popconfirm
+              title="确定删除该角色吗？"
+              ok-text="确定"
+              cancel-text="取消"
+              @confirm="deleteRole(record.id)"
+            >
+              <a v-permission="btnPermissions.role.delete">删除</a>
+            </a-popconfirm>
+          </span>
+        </template>
+      </template>
+    </standard-table>
+  </a-card>
   <role-form
     :modal-open="modalOpen"
     :title="title"

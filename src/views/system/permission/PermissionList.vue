@@ -1,74 +1,76 @@
 <template>
-  <standard-table
-    :data-source="dataList"
-    :columns="columns"
-    :scroll="{ x: '100%', y: '100%' }"
-    :loading="tableLoading"
-    :row-key="'id'"
-    :table-size="'small'"
-    :pagination="{ hideOnSinglePage: true }"
-    :expanded-row-keys="expandedRowKeys"
-    :expand-row-by-click="true"
-    @on-expanded-rows-change="onExpandedRowsChange"
-  >
-    <template #tableFilter>
-      <a-button
-        type="primary"
-        @click="createRootPermission"
-        v-permission="btnPermissions.permission.create"
-        >新增根权限</a-button
-      >
-    </template>
-    <template #action="{ column, record }">
-      <template v-if="column.key === 'perm_type'">
-        <a-tag :color="permTypeEnum[record.perm_type].color">
-          {{ permTypeEnum[record.perm_type].value }}
-        </a-tag>
-      </template>
-      <template v-else-if="column.key === 'name'">
-        <component v-if="record.icon" style="margin-right: 3px" :is="record.icon" /><span>{{
-          record.name
-        }}</span>
-      </template>
-      <template v-else-if="column.key === 'is_visible'">
-        <a-tag :color="record.is_visible ? 'success' : 'error'">
-          {{ record.is_visible ? '显示' : '隐藏' }}
-        </a-tag>
-      </template>
-      <template v-else-if="column.key === 'action'">
+  <a-card>
+    <standard-table
+      :data-source="dataList"
+      :columns="columns"
+      :scroll="{ x: '100%', y: '100%' }"
+      :loading="tableLoading"
+      :row-key="'id'"
+      :table-size="'small'"
+      :pagination="{ hideOnSinglePage: true }"
+      :expanded-row-keys="expandedRowKeys"
+      :expand-row-by-click="true"
+      @on-expanded-rows-change="onExpandedRowsChange"
+    >
+      <template #tableFilter>
         <a-button
-          class="action-btn"
-          type="link"
-          @click="createSubPermission(record)"
-          :disabled="record.perm_type === 3"
+          type="primary"
+          @click="createRootPermission"
           v-permission="btnPermissions.permission.create"
-          >添加子权限</a-button
+          >新增根权限</a-button
         >
-        <a-button
-          class="action-btn"
-          type="link"
-          @click="updatePermission(record)"
-          v-permission="btnPermissions.permission.update"
-          >修改</a-button
-        >
-        <a-button
-          class="action-btn"
-          type="link"
-          @click="copyPermission(record)"
-          v-permission="btnPermissions.permission.create"
-          >复制</a-button
-        >
-        <a-popconfirm
-          title="确定删除该权限吗？"
-          ok-text="确定"
-          cancel-text="取消"
-          @confirm="deletePermission(record.id)"
-        >
-          <a-button type="link" v-permission="btnPermissions.permission.delete">删除</a-button>
-        </a-popconfirm>
       </template>
-    </template>
-  </standard-table>
+      <template #action="{ column, record }">
+        <template v-if="column.key === 'perm_type'">
+          <a-tag :color="permTypeEnum[record.perm_type].color">
+            {{ permTypeEnum[record.perm_type].value }}
+          </a-tag>
+        </template>
+        <template v-else-if="column.key === 'name'">
+          <component v-if="record.icon" style="margin-right: 3px" :is="record.icon" /><span>{{
+            record.name
+          }}</span>
+        </template>
+        <template v-else-if="column.key === 'is_visible'">
+          <a-tag :color="record.is_visible ? 'success' : 'error'">
+            {{ record.is_visible ? '显示' : '隐藏' }}
+          </a-tag>
+        </template>
+        <template v-else-if="column.key === 'action'">
+          <a-button
+            class="action-btn"
+            type="link"
+            @click="createSubPermission(record)"
+            :disabled="record.perm_type === 3"
+            v-permission="btnPermissions.permission.create"
+            >添加子权限</a-button
+          >
+          <a-button
+            class="action-btn"
+            type="link"
+            @click="updatePermission(record)"
+            v-permission="btnPermissions.permission.update"
+            >修改</a-button
+          >
+          <a-button
+            class="action-btn"
+            type="link"
+            @click="copyPermission(record)"
+            v-permission="btnPermissions.permission.create"
+            >复制</a-button
+          >
+          <a-popconfirm
+            title="确定删除该权限吗？"
+            ok-text="确定"
+            cancel-text="取消"
+            @confirm="deletePermission(record.id)"
+          >
+            <a-button type="link" v-permission="btnPermissions.permission.delete">删除</a-button>
+          </a-popconfirm>
+        </template>
+      </template>
+    </standard-table>
+  </a-card>
   <permission-form
     :modal-open="modalOpen"
     :title="title"
@@ -107,7 +109,7 @@ const columns = [
     title: '名称',
     dataIndex: 'name',
     key: 'name',
-    width: 350,
+    width: 330,
     fixed: 'left'
   },
   {
@@ -168,7 +170,7 @@ const columns = [
   {
     title: '操作',
     key: 'action',
-    width: 260,
+    width: 280,
     fixed: 'right'
   }
 ]

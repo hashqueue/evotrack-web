@@ -1,44 +1,46 @@
 <template>
-  <standard-table
-    :data-source="dataList"
-    :columns="columns"
-    :row-key="'id'"
-    :loading="tableLoading"
-    :pagination="paginationData"
-    @on-page-change="onPageChange"
-  >
-    <template #tableFilter>
-      <a-button type="primary" @click="createUser" v-permission="btnPermissions.user.create"
-        >新增用户</a-button
-      >
-    </template>
-    <template #action="{ column, record }">
-      <template v-if="column.key === 'action'">
-        <span>
-          <a @click="updateUser(record)" v-permission="btnPermissions.user.update">修改</a>
-          <a-divider type="vertical" />
-          <a-popconfirm
-            title="确定删除该用户吗？"
-            ok-text="确定"
-            cancel-text="取消"
-            @confirm="deleteUser(record.id)"
-          >
-            <a v-permission="btnPermissions.user.delete">删除</a>
-          </a-popconfirm>
-        </span>
+  <a-card>
+    <standard-table
+      :data-source="dataList"
+      :columns="columns"
+      :row-key="'id'"
+      :loading="tableLoading"
+      :pagination="paginationData"
+      @on-page-change="onPageChange"
+    >
+      <template #tableFilter>
+        <a-button type="primary" @click="createUser" v-permission="btnPermissions.user.create"
+          >新增用户</a-button
+        >
       </template>
-      <template v-else-if="column.key === 'roles'">
-        <template v-for="(role, index) in record.roles" :key="index">
-          <a-tag color="processing">{{ role }}</a-tag>
+      <template #action="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <span>
+            <a @click="updateUser(record)" v-permission="btnPermissions.user.update">修改</a>
+            <a-divider type="vertical" />
+            <a-popconfirm
+              title="确定删除该用户吗？"
+              ok-text="确定"
+              cancel-text="取消"
+              @confirm="deleteUser(record.id)"
+            >
+              <a v-permission="btnPermissions.user.delete">删除</a>
+            </a-popconfirm>
+          </span>
+        </template>
+        <template v-else-if="column.key === 'roles'">
+          <template v-for="(role, index) in record.roles" :key="index">
+            <a-tag color="processing">{{ role }}</a-tag>
+          </template>
+        </template>
+        <template v-else-if="column.key === 'gender'">
+          <a-tag :color="genderEnum[record.gender].color" v-if="record.gender">{{
+            genderEnum[record.gender].value
+          }}</a-tag>
         </template>
       </template>
-      <template v-else-if="column.key === 'gender'">
-        <a-tag :color="genderEnum[record.gender].color" v-if="record.gender">{{
-          genderEnum[record.gender].value
-        }}</a-tag>
-      </template>
-    </template>
-  </standard-table>
+    </standard-table>
+  </a-card>
   <user-form
     :modal-open="modalOpen"
     :title="title"
