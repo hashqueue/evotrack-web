@@ -17,13 +17,13 @@ const routeWhiteList = ['/login']
 const addDynamicRoutes = (routesData) => {
   // 动态添加可访问路由表
   for (const item of routesData) {
-    // if (!router.hasRoute(item.name)) {
-    if (item.meta.parentRouteName !== null) {
-      router.addRoute(item.meta.parentRouteName, item)
-    } else {
-      router.addRoute('index', item)
+    if (!router.hasRoute(item.name)) {
+      if (item.meta.parentRouteName !== null) {
+        router.addRoute(item.meta.parentRouteName, item)
+      } else {
+        router.addRoute('index', item)
+      }
     }
-    // }
   }
 }
 
