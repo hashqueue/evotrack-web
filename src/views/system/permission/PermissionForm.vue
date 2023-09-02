@@ -157,9 +157,10 @@ const onOk = () => {
   createUpdateFormRef.value
     .validateFields()
     .then((values) => {
-      if (values.icon === undefined) {
-        // 如果用户没有选择图标，将icon字段设置为null
-        values.icon = null
+      for (const valuesKey in values) {
+        if (values[valuesKey] === undefined) {
+          values[valuesKey] = null
+        }
       }
       if (props.title === '修改权限') {
         updatePermission(props.permissionId, values).then(() => {
