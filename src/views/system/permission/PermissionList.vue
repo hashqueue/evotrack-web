@@ -122,7 +122,7 @@ const columns = [
   {
     title: '路由path',
     dataIndex: 'path',
-    width: 150,
+    width: 200,
     key: 'path'
   },
   {

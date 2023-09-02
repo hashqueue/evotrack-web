@@ -9,7 +9,7 @@
                 {{ item.breadcrumbName }}
               </a-breadcrumb-item>
               <a-breadcrumb-item v-else>
-                <router-link :to="item.path">{{ item.breadcrumbName }}</router-link>
+                <router-link :to="{ name: item.name }">{{ item.breadcrumbName }}</router-link>
               </a-breadcrumb-item>
             </template>
           </a-breadcrumb>

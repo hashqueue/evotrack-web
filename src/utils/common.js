@@ -203,6 +203,7 @@ export const generateBreadcrumbData = (routeMatchedData) => {
       // 第一个元素是首页index，不需要添加
       breadcrumbData.push({
         path: routeMatchedData[i].path,
+        name: routeMatchedData[i].name,
         breadcrumbName: routeMatchedData[i].meta.title
       })
     }
