@@ -42,7 +42,7 @@ import {
   getDepartmentTreeList
 } from '@/apis/system/department'
 import StandardModal from '@/components/StandardModal.vue'
-import { convertDeptTreeData2TreeSelectData } from '@/utils/common'
+import { changeObjValUndefined2Null, convertDeptTreeData2TreeSelectData } from '@/utils/common'
 
 const props = defineProps({
   departmentId: {
@@ -79,6 +79,7 @@ const onOk = () => {
   createUpdateFormRef.value
     .validateFields()
     .then((values) => {
+      changeObjValUndefined2Null(values)
       if (props.title === '修改部门') {
         updateDepartment(props.departmentId, values).then(() => {
           // 重新获取一遍部门信息

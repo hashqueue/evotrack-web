@@ -210,3 +210,15 @@ export const generateBreadcrumbData = (routeMatchedData) => {
   }
   return breadcrumbData
 }
+
+/**
+ * 将对象中的undefined值转换为null
+ * @param obj
+ */
+export const changeObjValUndefined2Null = (obj) => {
+  for (const key in obj) {
+    if (obj[key] === undefined) {
+      obj[key] = null
+    }
+  }
+}

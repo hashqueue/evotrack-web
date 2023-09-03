@@ -92,7 +92,7 @@ import {
 } from '@/apis/system/permission'
 import StandardModal from '@/components/StandardModal.vue'
 import { permTypeEnum } from '@/utils/enum'
-import { getIconOptions } from '@/utils/common'
+import { changeObjValUndefined2Null, getIconOptions } from '@/utils/common'
 
 const props = defineProps({
   permissionId: {
@@ -157,11 +157,7 @@ const onOk = () => {
   createUpdateFormRef.value
     .validateFields()
     .then((values) => {
-      for (const valuesKey in values) {
-        if (values[valuesKey] === undefined) {
-          values[valuesKey] = null
-        }
-      }
+      changeObjValUndefined2Null(values)
       if (props.title === '修改权限') {
         updatePermission(props.permissionId, values).then(() => {
           // 重新获取一遍权限信息
