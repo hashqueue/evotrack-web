@@ -59,12 +59,10 @@
 </template>
 
 <script setup>
-import { reactive, ref, onBeforeUnmount, onMounted } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
-import * as THREE from 'three'
-import CompObj from 'vanta/dist/vanta.clouds.min' // (ripple || fog || waves || clouds)
 
 import { login } from '@/apis/auth/login'
 import { useUserStore } from '@/stores/user'
@@ -72,24 +70,6 @@ import { useUserStore } from '@/stores/user'
 const router = useRouter()
 const title = import.meta.env.VITE_TITLE
 const titleDesc = import.meta.env.VITE_TITLE_DESC
-
-// set background
-//使用ref引用挂载区域
-const box = ref(null)
-//创建一个全局的变量来使用vanta.js
-let vantaEffect = null
-//在两个生命周期钩子内创建vantaEffect
-onMounted(() => {
-  vantaEffect = CompObj({
-    el: box.value,
-    THREE: THREE
-  })
-})
-onBeforeUnmount(() => {
-  if (vantaEffect) {
-    vantaEffect.destroy()
-  }
-})
 
 // login
 const userStore = useUserStore()
@@ -130,7 +110,7 @@ const onLoginFinishFailed = () => {
   flex-direction: column;
   height: 100vh;
   overflow: auto;
-  //background: #f0f2f5 url('src/assets/background.svg') no-repeat;
+  background: #f0f2f5 url('src/assets/background.svg') no-repeat;
   background-position-x: center;
   background-position-y: 110px;
   background-size: 100%;

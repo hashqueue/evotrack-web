@@ -27,14 +27,27 @@
           </a-tag>
         </template>
         <template v-else-if="column.key === 'name'">
-          <component v-if="record.icon" style="margin-right: 3px" :is="record.icon" /><span>{{
-            record.name
-          }}</span>
+          <a-tooltip>
+            <template #title>{{ record.name }}</template>
+            <component v-if="record.icon" style="margin-right: 3px" :is="record.icon" /><span>{{
+              record.name.length > 6 ? record.name.slice(0, 6) + '...' : record.name
+            }}</span>
+          </a-tooltip>
         </template>
         <template v-else-if="column.key === 'is_visible'">
           <a-tag :color="record.is_visible ? 'success' : 'error'">
             {{ record.is_visible ? '显示' : '隐藏' }}
           </a-tag>
+        </template>
+        <template v-else-if="column.key === 'component'">
+          <a-tooltip>
+            <template #title>{{ record.component }}</template>
+            {{
+              record.component.length > 30
+                ? record.component.slice(0, 30) + '...'
+                : record.component
+            }}
+          </a-tooltip>
         </template>
         <template v-else-if="column.key === 'action'">
           <a-button
@@ -109,7 +122,7 @@ const columns = [
     title: '名称',
     dataIndex: 'name',
     key: 'name',
-    width: 330,
+    width: 250,
     fixed: 'left'
   },
   {
@@ -122,20 +135,20 @@ const columns = [
   {
     title: '路由path',
     dataIndex: 'path',
-    width: 200,
+    width: 210,
     key: 'path'
-  },
-  {
-    title: '组件路径',
-    dataIndex: 'component',
-    width: 300,
-    key: 'component'
   },
   {
     title: '路由重定向path',
     dataIndex: 'redirect',
-    width: 200,
+    width: 210,
     key: 'redirect'
+  },
+  {
+    title: '组件路径',
+    dataIndex: 'component',
+    width: 250,
+    key: 'component'
   },
   {
     title: '是否显示',
@@ -146,25 +159,25 @@ const columns = [
   {
     title: '创建时间',
     dataIndex: 'created_at',
-    width: 150,
+    width: 170,
     key: 'created_at'
   },
   {
     title: '修改时间',
     dataIndex: 'updated_at',
-    width: 150,
+    width: 170,
     key: 'updated_at'
   },
   {
     title: '创建人',
     dataIndex: 'created_by',
-    width: 100,
+    width: 110,
     key: 'created_by'
   },
   {
     title: '修改人',
     dataIndex: 'updated_by',
-    width: 100,
+    width: 110,
     key: 'updated_by'
   },
   {
