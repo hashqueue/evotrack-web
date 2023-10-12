@@ -110,7 +110,7 @@ const onLoginFinishFailed = () => {
   flex-direction: column;
   height: 100vh;
   overflow: auto;
-  background: #f0f2f5 url('src/assets/background.svg') no-repeat;
+  background: #f0f2f5 url('@/assets/background.svg') no-repeat;
   background-position-x: center;
   background-position-y: 110px;
   background-size: 100%;
